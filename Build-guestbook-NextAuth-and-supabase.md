@@ -34,12 +34,13 @@ export const supabase = createClient('<project_url>', '<anon_public>')
 Getting data from supabase data
 
 ```js
-// pages/index.tsx
+// pages/index.jsx
 import React from 'react'
 import { supabase } from '../lib/supabaseClient'
 
 const index = () => {
   const [guestbookData,setGuestbookData] = React.useState(null)
+
   return (
 
   )
