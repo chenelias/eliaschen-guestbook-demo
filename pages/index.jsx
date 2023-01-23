@@ -1,19 +1,17 @@
 import React from 'react'
 import Head from 'next/head'
 import { BsGithub } from 'react-icons/bs'
-import { supabase } from '../lib/supabaseClient'
+import { supabase } from '../lib/supabaseClient.js'
 
 const index = () => {
     const [guestbookData, setGuestbookData] = React.useState(null)
     const messageInput = React.useRef()
+
     const fetchguestbook = async () => {
-        const { data, error } = await supabase.from('guestbookdata').select()
-        if (error) {
-            alert('error to fetch guestbook data')
-            setGuestbookData(error)
-        }
+        const { data, error } = await supabase.from('guestbook').select()
         if (data) {
             setGuestbookData(data)
+            console.log(data)
         }
     }
     React.useEffect(() => {
@@ -52,15 +50,21 @@ const index = () => {
                     </button>
                 </div>
             </div>
-            <div className="">
+            <div className=" my-5">
                 <ul>
-                    {guestbookData&&
+                    {guestbookData &&
                         guestbookData
                             .sort((a, b) => (a.id < b.id ? 1 : -1))
-                            .map((data) => (
-                                <li key={data.id}>
-                                    <p>{data.message}</p>
-                                    <p>{data.username}</p>
+                            .map((guestbookData) => (
+                                <li key={guestbookData.id} className="hover:bg-neutral-400 p-3 rounded-md duration-100">
+                                    <p className="text-md">{guestbookData.message}</p>
+                                    <div className="flex text-xs">
+                                        <p>{guestbookData.username}</p>&thinsp;<p>/</p>&thinsp;
+                                        <p>
+                                            {guestbookData.created_at.slice(0, 10)}&thinsp;at&thinsp;
+                                            {guestbookData.created_at.slice(11, 19)}
+                                        </p>
+                                    </div>
                                 </li>
                             ))}
                 </ul>
