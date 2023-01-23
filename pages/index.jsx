@@ -5,6 +5,9 @@ import { supabase } from '../lib/supabaseClient.js'
 
 const index = () => {
     const [guestbookData, setGuestbookData] = React.useState(null)
+    const [message, setmessage] = React.useState(null)
+    const [username, setusername] = React.useState('null')
+    const [email, setemail] = React.useState('null')
     const messageInput = React.useRef()
 
     const fetchguestbook = async () => {
@@ -13,6 +16,16 @@ const index = () => {
             setGuestbookData(data)
             console.log(data)
         }
+    }
+    const uploaddata = async (e) => {
+        let { data } = await supabase.from('guestbook').insert([
+            {
+                message,
+                username,
+                email,
+            },
+        ])
+        fetchguestbook()
     }
     React.useEffect(() => {
         fetchguestbook()
@@ -32,6 +45,9 @@ const index = () => {
             <div className={`p-2 mt-5 mb-6`}>
                 <input
                     ref={messageInput}
+                    onChange={(x) => {
+                        setmessage(x.target.value)
+                    }}
                     type="text"
                     placeholder="Your message..."
                     className="w-full py-1 px-2 text-lg rounded-md bg-neutral-100 ring-1 ring-blue-300 focus:ring-[3px] focus:outline-none duration-75"
@@ -40,6 +56,7 @@ const index = () => {
                     <button
                         onClick={() => {
                             messageInput.current.value = ''
+                            uploaddata()
                         }}
                         className="drop-shadow-sm px-2 py-1 bg-blue-400 hover:bg-blue-500 duration-100 rounded-md mr-2 w-full text-lg"
                     >
