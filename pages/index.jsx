@@ -41,12 +41,7 @@ const index = () => {
             <Head>
                 <title>Guestbook demo - ElasChen</title>
             </Head>
-            <div className="mt-2 ml-3 ">
-                <Link className='flex' href={'https://github.com/chenelias/eliaschen-guestbook-demo'} target={'_blank'}>
-                    💻&thinsp;<p className='text-blue-600 underline'>Source Code</p>
-                </Link>
-            </div>
-            <div className={`p-2 mt-2 mb-2 ${!session ? 'block' : 'hidden'}`}>
+            <div className={`p-2 mt- mb-2 ${!session ? 'block' : 'hidden'}`}>
                 <p className="text-xl font-bold">Sign in</p>
                 <button
                     onClick={() => signIn('github')}
