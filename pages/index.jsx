@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import Link from 'next/link'
 import { BsGithub } from 'react-icons/bs'
 import { supabase } from '../lib/supabaseClient.js'
 import { useSession, signIn, signOut } from 'next-auth/react'
@@ -40,7 +41,12 @@ const index = () => {
             <Head>
                 <title>Guestbook demo - ElasChen</title>
             </Head>
-            <div className={`p-2 mt-5 mb-2 ${!session ? 'block' : 'hidden'}`}>
+            <div className="mt-2 ml-3 ">
+                <Link className='flex' href={'https://github.com/chenelias/eliaschen-guestbook-demo'} target={'_blank'}>
+                    💻&thinsp;<p className='text-blue-600 underline'>Source Code</p>
+                </Link>
+            </div>
+            <div className={`p-2 mt-2 mb-2 ${!session ? 'block' : 'hidden'}`}>
                 <p className="text-xl font-bold">Sign in</p>
                 <button
                     onClick={() => signIn('github')}
@@ -102,7 +108,9 @@ const index = () => {
                                         </p>
                                         <div
                                             className={`hidden ${
-                                                session && guestbookData.email === session.user.email ? '!flex' : '!hidden'
+                                                session && guestbookData.email === session.user.email
+                                                    ? '!flex'
+                                                    : '!hidden'
                                             }`}
                                         >
                                             <p>&thinsp;/&thinsp;</p>
