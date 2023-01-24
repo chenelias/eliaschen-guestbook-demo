@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { BsGithub } from 'react-icons/bs'
+import { BsGithub, BsGoogle } from 'react-icons/bs'
 import { supabase } from '../lib/supabaseClient.js'
 import { useSession, signIn, signOut } from 'next-auth/react'
 
@@ -43,13 +43,22 @@ const index = () => {
             </Head>
             <div className={`p-2 mt- mb-2 ${!session ? 'block' : 'hidden'}`}>
                 <p className="text-xl font-bold">Sign in</p>
-                <button
-                    onClick={() => signIn('github')}
-                    className="drop-shadow-sm text-lg px-2 py-1 bg-zinc-600 hover:bg-slate-700 duration-100 mt-1 text-white rounded-md flex items-center"
-                >
-                    <BsGithub />
-                    &thinsp;Github
-                </button>
+                <div className="flex">
+                    <button
+                        onClick={() => signIn('github')}
+                        className="drop-shadow-sm text-lg px-2 py-1 bg-zinc-600 hover:bg-slate-700 duration-100 mt-1 text-white rounded-md flex items-center"
+                    >
+                        <BsGithub />
+                        &thinsp;Github
+                    </button>
+                    <button
+                        onClick={() => signIn('google')}
+                        className=" ml-2 drop-shadow-sm text-lg px-2 py-1 bg-blue-400 hover:bg-blue-500 duration-100 mt-1 text-white rounded-md flex items-center"
+                    >
+                        <BsGoogle />
+                        &thinsp;Google
+                    </button>
+                </div>
             </div>
             <div className={`p-2 mt-5 ${!session ? 'hidden' : 'block'}`}>
                 <p className="mb-1">Sign in with&nbsp;{session && session.user.name}</p>
@@ -77,7 +86,7 @@ const index = () => {
                         Send it
                     </button>
                     <button
-                        onClick={() => signOut('github')}
+                        onClick={() => signOut()}
                         className="drop-shadow-sm px-2 py-1 w-[120px] bg-zinc-300 hover:bg-zinc-400 duration-100 rounded-md text-lg"
                     >
                         Sign out
