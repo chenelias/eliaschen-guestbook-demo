@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { BsGithub, BsGoogle } from 'react-icons/bs'
 import { supabase } from '../lib/supabaseClient.js'
 import { useSession, signIn, signOut } from 'next-auth/react'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const index = () => {
     const { data: session } = useSession()
@@ -95,7 +97,7 @@ const index = () => {
             </div>
             <div className="mb-5">
                 <ul>
-                    {guestbookData &&
+                    {guestbookData ? (
                         guestbookData
                             .sort((a, b) => (a.id < b.id ? 1 : -1))
                             .map((guestbookData) => (
@@ -127,7 +129,18 @@ const index = () => {
                                         </div>
                                     </div>
                                 </li>
-                            ))}
+                            ))
+                    ) : (
+                        <Skeleton
+                            className="my-2"
+                            borderRadius={10}
+                            count={1}
+                            height={60}
+                            baseColor="#dfdfdf"
+                            highlightColor="#cfc9c9"
+                            duration={0.8}
+                        />
+                    )}
                 </ul>
             </div>
         </main>

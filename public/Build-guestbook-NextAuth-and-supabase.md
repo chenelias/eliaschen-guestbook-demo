@@ -1,15 +1,17 @@
 # Build a guestbook with NextAuth and Supabase
-
 ### Stack
 
 -   Next.js as a framework
 -   NextAuth (Authentication for Next.js)
 -   Supabase (guestbook database)
 
-### Supabase
+## Supabase
+
+### What is supabase?
+
+Supabase is an open source Firebase alternative providing all the backend features you need to build a product and offer user more simple UI then Firebase.
 
 Install supabase
-
 ```bash
 # npm
 npm install @supabase/supabase-js
@@ -20,7 +22,9 @@ yarn add @supabase/supabase-js
 Sign up an account on https://supabase.com, create a new project (mine: `Guestbookdemo`).\
 Create a table (mine: `guestbookdata`).
 
-![img](/public/supabase-table-create.png)
+> Remember to disable RLS(Row Level Security) for table
+
+![supabase-table-create](inkdrop://file:oUV0GN5sm)
 
 Create `supabaseClient.js` in `/lib` .
 
@@ -88,11 +92,64 @@ const removedata = async (removeid) => {
 // ...
 ```
 
-### NextAuth
+## NextAuth
+
 Install NextAuth
+
 ```bash
 # npm
 npm install next-auth
 # yarn
 yarn add next-auth
 ```
+
+To add NextAuth.js to a project create a file called [...nextauth].js in pages/api/auth
+
+> All provider set up documentation of NextAuth on https://next-auth.js.org/providers/
+
+```js
+// pages/api/auth/[...nextauth].js
+// Example for github provider
+import NextAuth from 'next-auth'
+import GithubProvider from 'next-auth/providers/github'
+
+export const authOptions = {
+    // Configure one or more authentication providers
+    providers: [
+        GithubProvider({
+            clientId: process.env.GITHUB_ID,
+            clientSecret: process.env.GITHUB_SECRET,
+        }),
+        // ...add more providers here
+    ],
+}
+
+export default NextAuth(authOptions)
+```
+
+Add NextAuth login in pages
+
+```jsx
+// ...
+import { useSession, signIn, signOut } from 'next-auth/react'
+
+const index = () => {
+    const { data: session } = useSession()
+
+    return(
+      // ...
+      <button onClick={()=>signIn('Login provider')}>Sign in</button>
+      <button onClcik={()=>signOut()} >Sign out</button>
+      // ...
+    )
+}
+```
+
+## Conclusion
+Supabase and NextAuth are both a perfect choose for beginners who want to learn basic database or building a simple auth login application.
+
+Guestbook demo: https://eliaschen-guestbook-demo.vercel.app \
+Guestbook demo (github repository): https://github.com/chenelias/eliaschen-guestbook-demo \
+My Guestbook: https://eliaschen.dev/guestbook
+
+⚡Thanks for reading, see you in the next blog.

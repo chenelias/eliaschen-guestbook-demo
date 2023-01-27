@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <header>
             <Link href={'/'} className="text-4xl font-extrabold">
-                📓Guestbook demo
+                📓Guestbook
             </Link>
         </header>
     )
